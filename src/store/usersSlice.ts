@@ -1,6 +1,10 @@
 import { fetchUsers } from "@/api/userApi";
 import type { User } from "@/types/user";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
 
 export type UsersState = {
   items: User[];
@@ -14,17 +18,18 @@ const initialState: UsersState = {
   error: null,
 };
 
-export const loadUsers = createAsyncThunk(
-  "users/load",
-  async (_, { rejectWithValue }) => {
-    try {
-      const data = await fetchUsers();
-      return data;
-    } catch (err: any) {
-      return rejectWithValue(err.message || "Failed to load users");
-    }
+export const loadUsers = createAsyncThunk<
+  User[],
+  { page: number; limit: number },
+  { rejectValue: string }
+>("users/load", async ({ page, limit }, { rejectWithValue }) => {
+  try {
+    const data = await fetchUsers(page, limit);
+    return data;
+  } catch (err: any) {
+    return rejectWithValue(err.message || "Failed to load users");
   }
-);
+});
 
 const usersSlice = createSlice({
   name: "users",
