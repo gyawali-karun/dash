@@ -37,18 +37,33 @@ const usersSlice = createSlice({
   reducers: {},
   extraReducers: (builder: any) => {
     builder
-      .addCase(loadUsers.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(loadUsers.fulfilled, (state, action: PayloadAction<User[]>) => {
-        state.items = action.payload;
-        state.loading = false;
-      })
-      .addCase(loadUsers.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      });
+      .addCase(
+        loadUsers.pending,
+        (state: { loading: boolean; error: null }) => {
+          state.loading = true;
+          state.error = null;
+        }
+      )
+      .addCase(
+        loadUsers.fulfilled,
+        (
+          state: { items: User[]; loading: boolean },
+          action: PayloadAction<User[]>
+        ) => {
+          state.items = action.payload;
+          state.loading = false;
+        }
+      )
+      .addCase(
+        loadUsers.rejected,
+        (
+          state: { loading: boolean; error: string },
+          action: { payload: string }
+        ) => {
+          state.loading = false;
+          state.error = action.payload as string;
+        }
+      );
   },
 });
 
