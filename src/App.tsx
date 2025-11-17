@@ -1,13 +1,13 @@
 import "./App.css";
 import Sidebar from "./components/SideBar";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import DataTable from "./pages/DataTablePage";
 import HomePage from "./pages/HomPage";
 import SettingsPage from "./pages/SettingsPage";
 
 function App() {
   return (
-    <Router>
+    <>
       <div className="flex h-screen bg-background text-foreground">
         <Sidebar />
 
@@ -19,7 +19,7 @@ function App() {
           </Routes>
         </main>
       </div>
-    </Router>
+    </>
   );
 }
 
